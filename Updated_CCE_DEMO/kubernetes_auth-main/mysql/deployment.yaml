@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: mysql
+        version: v1
+    spec:
+      containers:
+        - name: container-1
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD  # Password of the root user of MySQL, which can be customized
+              value: my-secret-pw
+            - name: MYSQL_DATABASE       # Name of the database to be created when the image is started, which can be customized
+              value: user_auth
+            - name: MYSQL_USER           # Database username, which can be customized
+              value: db_user
+            - name: MYSQL_PASSWORD       # Database user password, which can be customized
+              value: my-secret-pw
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
+      imagePullSecrets:
+        - name: default-secret
+  serviceName: mysql
+  volumeClaimTemplates:  # Dynamically attach the EVS disk to the workload.
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: mysql
+        namespace: default
+        annotations:
+          everest.io/disk-volume-type: SSD  # EVS disk type
+        labels:
+          failure-domain.beta.kubernetes.io/region: ap-southeast-3  #Region where the EVS disk is in
+          failure-domain.beta.kubernetes.io/zone:    #AZ where the EVS disk is in. It must be the same as the AZ of the node that runs the workload.
+      spec:
+        accessModes:
+          - ReadWriteOnce  # ReadWriteOnce for an EVS disk
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: csi-disk  # Storage class name. The value is csi-disk for an EVS disk.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: default
+  labels:
+    app: mysql
+    version: v1
+spec:
+  selector:
+    app: mysql
+    version: v1
+  clusterIP: None
+  ports:
+    - name: mysql
+      protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
