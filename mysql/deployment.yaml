@@ -34,32 +34,12 @@ spec:
             limits:
               cpu: 250m
               memory: 512Mi
-          volumeMounts:
-            - name: mysql
-              mountPath: /var/lib/mysql
       imagePullSecrets:
         - name: default-secret
   serviceName: mysql
-  volumeClaimTemplates:  # Dynamically attach the EVS disk to the workload.
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      metadata:
-        name: mysql
-        namespace: default
-        annotations:
-          everest.io/disk-volume-type: SSD  # EVS disk type
-        labels:
-          failure-domain.beta.kubernetes.io/region: ap-southeast-3  #Region where the EVS disk is in
-          failure-domain.beta.kubernetes.io/zone:    #AZ where the EVS disk is in. It must be the same as the AZ of the node that runs the workload.
-      spec:
-        accessModes:
-          - ReadWriteOnce  # ReadWriteOnce for an EVS disk
-        resources:
-          requests:
-            storage: 10Gi
-        storageClassName: csi-disk  # Storage class name. The value is csi-disk for an EVS disk.
 
 ---
+  
 apiVersion: v1
 kind: Service
 metadata:
