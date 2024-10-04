@@ -79,3 +79,30 @@ spec:
       port: 3306
       targetPort: 3306
   type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service  
+metadata:
+  name: mysql-nodeport 
+  namespace: default
+  labels:
+    app: mysql #workload name 
+spec:
+  ports:
+    - name: cce-service-0
+      protocol: TCP
+      port: 3306 #service port
+      targetPort: 3306 #container port
+      nodePort: 30580 # Node port
+  selector:
+    app: mysql #workload name 
+
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

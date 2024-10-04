@@ -17,16 +17,16 @@ spec:
     spec:
       containers:
         - name: container-1
-          image: swr.ap-southeast-3.myhuaweicloud.com/mysqldemo1/webserver:v1.0 
+          image: swr.ap-southeast-3.myhuaweicloud.com/msqldemo2/php:v1.0 
           env:
-            - name: servername
-            value: "mysql"
-            - name: password
-            value: "my-secret-pw"
-            - name: dbname
-            value: user_auth
-            - name: username
-            value: root
+           - name: servername
+             value: "mysql"
+           - name: password
+             value: "my-secret-pw"
+           - name: dbname
+             value: user_auth
+           - name: username
+             value: root
           resources:
             requests:
               cpu: 250m
@@ -34,18 +34,11 @@ spec:
             limits:
               cpu: 250m
               memory: 512Mi
-          volumeMounts:
-            - name: php
-              readOnly: false
-              mountPath: /var/www/html
       imagePullSecrets:
         - name: default-secret
-      volumes:
-        - name: php
-          persistentVolumeClaim:
-            claimName: php
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:

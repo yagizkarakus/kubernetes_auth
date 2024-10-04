@@ -1,4 +1,37 @@
-<h1>1. Create CCE </h1>
+<h1>Clone Repository</h1>
+For cloning repository
+
+```Bash
+git clone 
+```
+<h1>Build Images</h1>
+
+**webserver/Dockerfile**
+```Bash
+cd webserver
+docker build . -t {yourimage_name}:{tag} 
+cd ../mysql
+docker build . -t {yourimage_name}:{tag} 
+```
+<h1>Run Images</h1>
+
+```Bash
+docker run -n {container_name} -p 80:80 {yourimage_name}:{tag} 
+docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=user_auth -d {yourimage_name}:{tag}
+
+```
+
+
+
+<h1>OBS Image upload</h1>
+
+Upload an image under an bucket named test.jpg then from Object Acl Settings activate public read and write
+
+![alt text](image/image-13.png)
+
+
+
+<h1>Create CCE </h1>
 
 <h2>spesifications </h2>
 
@@ -21,7 +54,7 @@
 
 **De-select all add-ons**
 
-<h1>2. Create a Node </h1>
+<h1>3. Create a Node </h1>
 
 - Under the Nodes Tab Go to your Nodes and Click create Node
   ![alt text](images/image-11.png)
@@ -51,7 +84,7 @@
   ![alt text](images/image-6.png)
 - Click Create  Workload
 
-<h1>4. Create Deployment Apache-server Workload </h1>
+<h1>Create Deployment Apache-server Workload </h1>
 
 - From Workloads go to Deployment and click Create Workload
   ![alt text](images/image-7.png)
