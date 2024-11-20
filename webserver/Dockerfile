@@ -1,5 +1,5 @@
 # Use an official PHP image with Apache
-FROM php:7.2-apache
+FROM php:7.4-apache
 
 ENV servername "mysql"
 
