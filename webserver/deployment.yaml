@@ -20,7 +20,7 @@ spec:
           image: swr.ap-southeast-3.myhuaweicloud.com/msqldemo2/php:v1.0 
           envFrom:
             - configMapRef:
-                name: mysql-config
+                name: auth-config
           resources:
             requests:
               cpu: 250m
