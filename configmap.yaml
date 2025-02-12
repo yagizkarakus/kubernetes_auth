@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-config
+  namespace: default
+data:
+  MYSQL_ROOT_PASSWORD: my-secret-pw
+  MYSQL_DATABASE: user_auth
+  MYSQL_USER: root
+  MYSQL_PASSWORD: my-secret-pw
+  MYSQL_HOST: mysql  # The MySQL service name in Kubernetes
