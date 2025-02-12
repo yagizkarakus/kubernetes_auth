@@ -18,15 +18,9 @@ spec:
       containers:
         - name: container-1
           image: mysql:latest
-          env:
-            - name: MYSQL_ROOT_PASSWORD  # Password of the root user of MySQL, which can be customized
-              value: my-secret-pw
-            - name: MYSQL_DATABASE       # Name of the database to be created when the image is started, which can be customized
-              value: user_auth
-            - name: MYSQL_USER           # Database username, which can be customized
-              value: db_user
-            - name: MYSQL_PASSWORD       # Database user password, which can be customized
-              value: my-secret-pw
+          envFrom:
+            - configMapRef:
+                name: mysql-config
           resources:
             requests:
               cpu: 250m
