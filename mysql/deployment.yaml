@@ -20,7 +20,7 @@ spec:
           image: mysql:latest
           envFrom:
             - configMapRef:
-                name: mysql-config
+                name: auth-config
           resources:
             requests:
               cpu: 250m
