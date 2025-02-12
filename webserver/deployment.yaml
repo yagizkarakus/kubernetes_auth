@@ -18,15 +18,9 @@ spec:
       containers:
         - name: container-1
           image: swr.ap-southeast-3.myhuaweicloud.com/msqldemo2/php:v1.0 
-          env:
-           - name: servername
-             value: "mysql"
-           - name: password
-             value: "my-secret-pw"
-           - name: dbname
-             value: user_auth
-           - name: username
-             value: root
+          envFrom:
+            - configMapRef:
+                name: mysql-config
           resources:
             requests:
               cpu: 250m
